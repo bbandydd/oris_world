@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Ori's World</title>
+    <meta name="description" content="Model Viewer (VR / AR) • A-Frame">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <link rel="stylesheet" type="text/css" href="./styles.css" />
+    <script src="./lib/aframe-1.2.0.min.js"></script>
+    <script src="./lib/jquery.js"></script>
+</head>
+
+<body>
+  <a-scene
+    info-message="htmlSrc: #messageText"
+  >
+    <a-assets>
+      <img id="oneMonth" crossOrigin="anonymous" src="./img/one_month.JPG">
+      <img id="threeMonth" crossOrigin="anonymous" src="./img/three_month.JPG">
+      <img id="fourMonth" crossOrigin="anonymous" src="./img/four_month.JPG">
+      <video id="ballVideo" src="./video/ball.MP4" autoplay playsinline loop></video>
+      <a-asset-item id="messageText">
+        <p>Ori's World</p>
+      </a-asset-item>
+    </a-assets>
+    <!-- <a-image src="#oneMonth" position="0 1.6 -1" rotation="0 0 0"></a-image>
+    <a-image src="#threeMonth" position="1 1.6 -0.8" rotation="0 -45 0"></a-image>
+    <a-image src="#fourMonth" position="1.5 1.6 0.1" rotation="0 -90 0"></a-image> -->
+
+    <a-image src="#oneMonth" position="-1 1.6 -2"></a-image>
+    <a-image src="#threeMonth" position="0 1.6 -2"></a-image>
+    <a-image src="#fourMonth" position="1 1.6 -2"></a-image>
+    <a-video src="#ballVideo" position="0 3 -2"></a-video>
+  </a-scene>
+
+  <div class="component" style="z-index: -1">
+    <video id="videoPlayer" autoplay playsinline></video>
+  </div>
+</body>
+<script>
+
+  function showAR() {
+    start = true;
+    navigator.mediaDevices.getUserMedia(constraints).then((stream) => {
+      if (start) {
+        video.srcObject = stream;
+      }
+    });
+  }
+
+  $().ready(function() {
+    showAR();
+  });
+
+  const constraints = {
+    video: {
+      //set camera screen size
+      width: { min: 1024, ideal: 1280, max: 1920 },
+      height: { min: 776, ideal: 720, max: 1080 },
+      facingMode: { exact: "environment" },
+    },
+  };
+
+  let start = false;
+
+  const video = document.getElementById("videoPlayer");
+  navigator.mediaDevices.getUserMedia(constraints).then((stream) => {
+    if (start) {
+      video.srcObject = stream;
+    }
+  });
+</script>
+</html>
